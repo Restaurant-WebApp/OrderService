@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OrderAPI.Data;
+using OrderAPI.Messaging;
+using OrderAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<OrderAppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();
 
