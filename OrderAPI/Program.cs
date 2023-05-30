@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using OrderAPI.Data;
+using OrderAPI.GmailSender;
 using OrderAPI.Messaging;
 using OrderAPI.Repository;
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 var optionBuilder = new DbContextOptionsBuilder<OrderAppDbContext>();
 var dbContextOptions = optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).Options;
