@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OrderAPI.GmailSender;
 using OrderAPI.Messages;
 using OrderAPI.Models;
 using OrderAPI.Repository;
@@ -16,10 +17,12 @@ namespace OrderAPI.Messaging
         private readonly IOrderRepository _repository;
         private IConnection _connection;
         private IModel _channel;
+        private readonly IEmailSender _emailSender;
                 
-        public RabbitMqConsumer(IOrderRepository repository)
+        public RabbitMqConsumer(IOrderRepository repository, IEmailSender emailsender)
         {
             _repository = repository;
+            _emailSender = emailsender;
 
             var factory = new ConnectionFactory
             {
@@ -79,6 +82,7 @@ namespace OrderAPI.Messaging
             }
 
             await _repository.AddOrder(orderHeader);
+            _emailSender.SendEmail(orderHeader.Email, orderHeader.FirstName, orderHeader.OrderDetails);
 
             try
             {
