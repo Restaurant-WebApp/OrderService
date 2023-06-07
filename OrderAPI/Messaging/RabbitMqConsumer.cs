@@ -82,7 +82,7 @@ namespace OrderAPI.Messaging
             }
 
             await _repository.AddOrder(orderHeader);
-            _emailSender.SendEmail(orderHeader.Email, orderHeader.FirstName, orderHeader.OrderDetails);
+            _emailSender.SendEmail(orderHeader.Email, orderHeader.FirstName, orderHeader);
 
             try
             {
