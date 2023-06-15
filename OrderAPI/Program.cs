@@ -17,8 +17,14 @@ builder.Services.AddSingleton(dbContextOptions); // Register DbContextOptions<Or
 
 builder.Services.AddDbContext<OrderAppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // Configure the connection string
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+    options.UseSqlServer(connectionString, sqlServerOptions =>
+    {
+        sqlServerOptions.EnableRetryOnFailure();
+    });
 });
+
 
 builder.Services.AddHostedService<RabbitMqConsumer>();
 
