@@ -18,17 +18,25 @@ namespace OrderAPI.Messaging
         private IConnection _connection;
         private IModel _channel;
         private readonly IEmailSender _emailSender;
+        private readonly string _hostname;
+        private readonly string _password;
+        private readonly string _username;
                 
-        public RabbitMqConsumer(IOrderRepository repository, IEmailSender emailsender)
+        public RabbitMqConsumer(IOrderRepository repository, IEmailSender emailsender,IConfiguration configuration)
         {
             _repository = repository;
             _emailSender = emailsender;
 
+            var rabbitMqSettings = configuration.GetSection("RabbitMQSettings");
+            _hostname = rabbitMqSettings["HostName"];
+            _password = rabbitMqSettings["Password"];
+            _username = rabbitMqSettings["UserName"];
+
             var factory = new ConnectionFactory
             {
-                HostName = "localhost",
-                UserName = "guest",
-                Password = "guest",
+                HostName = _hostname,
+                UserName = _username,
+                Password = _password,
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
