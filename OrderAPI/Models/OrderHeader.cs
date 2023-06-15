@@ -14,6 +14,5 @@
         public string CVV { get; set; }
         public int CartTotalItems { get; set; }
         public List<OrderDetails> OrderDetails { get; set; }
-        public bool PaymentStatus { get; set; }
     }
 }

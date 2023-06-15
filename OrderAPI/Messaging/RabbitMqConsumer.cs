@@ -89,8 +89,9 @@ namespace OrderAPI.Messaging
                 orderHeader.OrderDetails.Add(orderDetails);
             }
 
-            await _repository.AddOrder(orderHeader);
+
             _emailSender.SendEmail(orderHeader.Email, orderHeader.FirstName, orderHeader);
+            await _repository.AddOrder(orderHeader);
         }
     }
 }
