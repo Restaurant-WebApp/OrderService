@@ -15,9 +15,10 @@ namespace OrderAPI.Repository
 
         public async Task<bool> AddOrder(OrderHeader orderHeader)
         {
+            Console.WriteLine(orderHeader.ToString());
             await using var _db = new OrderAppDbContext(_dbContext);
             _db.OrderHeaders.Add(orderHeader);
-            //await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
             return true;
 
         }

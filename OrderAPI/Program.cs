@@ -24,7 +24,15 @@ builder.Services.AddDbContext<OrderAppDbContext>(options =>
         sqlServerOptions.EnableRetryOnFailure();
     });
 });
-
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:3000") 
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddHostedService<RabbitMqConsumer>();
 
@@ -46,6 +54,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseCors();
 
 app.MapControllers();
 
