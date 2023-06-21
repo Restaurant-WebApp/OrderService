@@ -80,6 +80,7 @@ namespace OrderAPI.Messaging
             {
                 OrderDetails orderDetails = new()
                 {
+                    OrderDetailsId = detailList.CartDetailsId,
                     ProductId = detailList.ProductId,
                     ProductName = detailList.Product.Name,
                     Price = detailList.Product.Price,
@@ -88,7 +89,6 @@ namespace OrderAPI.Messaging
                 orderHeader.CartTotalItems += detailList.Count;
                 orderHeader.OrderDetails.Add(orderDetails);
             }
-
 
             _emailSender.SendEmail(orderHeader.Email, orderHeader.FirstName, orderHeader);
             await _repository.AddOrder(orderHeader);

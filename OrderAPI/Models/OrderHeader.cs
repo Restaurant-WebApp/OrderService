@@ -2,7 +2,7 @@
 {
     public class OrderHeader
     {
-        public int OrderHeaderId { get; set; }
+        public Guid OrderHeaderId { get; set; }
         public string UserId { get; set; }
         public double OrderTotal { get; set; }
         public string FirstName { get; set; }
